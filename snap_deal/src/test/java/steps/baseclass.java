@@ -15,15 +15,13 @@ import com.aventstack.extentreports.reporter.ExtentReporter;
 
 import io.cucumber.testng.AbstractTestNGCucumberTests;
 
-public class baseclass extends AbstractTestNGCucumberTests
+public class baseclass
 {
 	//public static ChromeDriver driver;
 		public static final ThreadLocal<RemoteWebDriver> remotewebdriver = new ThreadLocal<RemoteWebDriver>();
 		public static ExtentTest test,node;
 		
-		public static ExtentReporter reporter;
-		public static ExtentReports extent;
-		public String testName,testDesc,author,category;
+	
 		
 		
 		public void setDriver()
@@ -36,27 +34,20 @@ public class baseclass extends AbstractTestNGCucumberTests
 		}
 		
 		
-		public long takesnap() throws IOException
+		public byte[] getByteScreenshot()
 		{
-			long number = (long)Math.floor(((Math.random()*90000000L)+10000000L));
-			File source = getDriver().getScreenshotAs(OutputType.FILE);
-			File dest = new File(".src/test/resources/Reports/screenshot/img" + number+ ".png");
-			FileUtils.copyFile(source, dest);
-			return number;
+			File screenshotAs = getDriver().getScreenshotAs(OutputType.FILE);
+			byte[] readFileToByteArray = null;
+			try
+			{
+				readFileToByteArray = FileUtils.readFileToByteArray(screenshotAs);
+			}
+			catch(IOException e)
+			{
+				e.printStackTrace();
+			}
+			
+			return readFileToByteArray;
 			
 		}
-		
-		public void reportstep(String msg,String status) throws IOException 
-		{
-			if(status.equalsIgnoreCase("pass"))
-			{
-				node.pass(msg,MediaEntityBuilder.createScreenCaptureFromPath("src/test/resources/Reports/screenshot/img"+takesnap()+"png").build());
-				
-			}
-			else if (status.equalsIgnoreCase("fail"))
-			{
-				node.fail(msg,MediaEntityBuilder.createScreenCaptureFromPath("src/test/resources/Reports/screenshot/img"+takesnap()+"png").build());
-			}
-		}
-
 }

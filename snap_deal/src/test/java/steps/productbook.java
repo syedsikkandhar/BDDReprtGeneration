@@ -22,26 +22,18 @@ public static Properties prop = new Properties();
     public void go_to(String url) throws InterruptedException, IOException 
 	{
 		
-		try
-		{
-		
 		WebDriverManager.chromedriver().setup();
         setDriver();
         //driver = new ChromeDriver();	
         getDriver().get(url);
         getDriver().manage().window().maximize();
         Thread.sleep(3000);
-        FileInputStream fis = new FileInputStream("/Users/syedbasha/Documents/Personal_Projects/snap_deal/src/main/java/Properties/locator.properties");
+        FileInputStream fis = new FileInputStream("/Users/syedbasha/git/BDDReprtGeneration/snap_deal/src/main/java/Properties/locator.properties");
         prop.load(fis);
-        WebElement allow_button = getDriver().findElement(By.id(prop.getProperty("allow_button")));
-        allow_button.click();
-        reportstep("WebPage "+url+ " Loaded successfully","pass");
-		}
-		catch(Exception e)
-		{
-			reportstep("WebPage "+url+ " not Loaded successfully","fail");
-			
-		}
+        //WebElement allow_button = getDriver().findElement(By.id(prop.getProperty("allow_button")));
+        //allow_button.click();
+        
+		
         
            
     }
@@ -50,8 +42,6 @@ public static Properties prop = new Properties();
     public void mouse_over_on_toys(String toys) throws InterruptedException, IOException 
    
     {
-    	 try
-    	{
     	System.out.println("Run this step");
     	System.out.println("********************");
     	//WebElement category = getDriver().findElement(By.xpath(prop.getProperty("toy_category").replace("<toys>", toys)));
@@ -60,54 +50,38 @@ public static Properties prop = new Properties();
     	Actions act = new Actions(getDriver());
     	act.moveToElement(category).build().perform();
     	Thread.sleep(3000);
-    	reportstep("WebPage "+toys+ " Loaded successfully","pass");
-    	}
-    	catch(Exception e)
-    	{
-    	reportstep("WebPage "+toys+ " not Loaded successfully","fail");
-    	}
+    
+    	
        
     }
     
     @Then("^click on toys$")
     public void click_on_toys() throws InterruptedException, IOException 
     {
-    	try
-    	{
     	Thread.sleep(3000);
     	WebElement toys = getDriver().findElement(By.xpath(prop.getProperty("toy_option")));
     	toys.click();
-    	reportstep("Clicked " +toys+ " successfully","pass");
-    	}
-    	catch(Exception e)
-    	{
-    		reportstep("not Clicked successfully","fail");
-    	}
+    	
+    	
     	
        
     }
     @When("^Click (.*)$")
     public void click_educational_toys(String toy_game) throws InterruptedException, IOException 
     {
-    	try
-    	{
     	Thread.sleep(3000);
     	//WebElement toys_click = getDriver().findElement(By.xpath(prop.getProperty("education_toys").replace("<toy_game>", toy_game)));
     	WebElement toys_click = getDriver().findElement(By.xpath(prop.getProperty("education_toys")));
     	System.out.println(toys_click);
     	toys_click.click();
-    	reportstep("Clicked " +toy_game+ " successfully","pass");
-    	}
-    	catch(Exception e)
-    	{
-    		reportstep("Clicked " +toy_game+ " successfully","fail");
-    	}
     }
-
+    
     @When("^Click the Customer Rating as (.+)$")
-    public void click_the_customer_rating_as(String rating) 
+    public void click_the_customer_rating_as(String rating) throws InterruptedException 
     {
-        
+        Thread.sleep(3000);
+        WebElement ratings = getDriver().findElement(By.xpath(prop.getProperty("select_rating")));
+        ratings.click();
     }
 
     @When("^Click the offer as (.+)$")
@@ -193,6 +167,9 @@ public static Properties prop = new Properties();
     {
       
     }
+
+
+   
 
 
 
